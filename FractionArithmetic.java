@@ -66,8 +66,8 @@ public class FractionArithmetic {
 
     private void mainMenuOption() {
         do {
-                // Show the mainMenu
-                choice = showMainMenu();
+            // Show the mainMenu
+            choice = showMainMenu();
             switch (choice) {
                 // arithmetic options
                 case 1 -> tempFraction = addFractions();
@@ -76,11 +76,11 @@ public class FractionArithmetic {
                 case 4 -> tempFraction = divideFraction();
                 case 5 -> tempFraction = simplifyFraction();
             }
-                if (choice > 6)
-                {
-                    System.out.println("Please input a valid value!");
-                }
-            } while (choice > 6);
+            if (choice > 6)
+            {
+                System.out.println("Please input a valid value!");
+            }
+        } while (choice > 6);
     }
 
     private Fraction simplifyFraction()
@@ -128,14 +128,13 @@ public class FractionArithmetic {
         return keyboard.nextInt();
     }
 
-    public static Fraction readAFraction()
-    {
-        int numerator, denominator;
-        System.out.println("Input the numerator");
-        numerator = keyboard.nextInt();
-        System.out.println("Input the denominator");
-        denominator = keyboard.nextInt();
-        return new Fraction(numerator, denominator);
+    public static Fraction readAFraction()  {
+        String input_string_fraction;
+        System.out.println("Input the fraction: ");
+        input_string_fraction = keyboard.nextLine();
+
+        return new Fraction(input_string_fraction);
+
     }
 
     private static void showIntroduction()

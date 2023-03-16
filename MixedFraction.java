@@ -1,12 +1,6 @@
 package project;
 
 class MixedFraction extends Fraction {
-
-    /* Purpose of this template/class
-     - Changing the format of improper fraction to mixed fraction
-     - Perform arithmetic operation of mixed fractions (i.e., add, sub, multiply, divide)
-     */
-
     private int whole;
 
     MixedFraction() {
