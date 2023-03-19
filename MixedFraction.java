@@ -2,11 +2,6 @@ package project;
 
 class MixedFraction extends Fraction {
 
-    /* Purpose of this template/class
-     - Changing the format of improper fraction to mixed fraction
-     - Perform arithmetic operation of mixed fractions (i.e., add, sub, multiply, divide)
-     */
-
     private int whole;
 
     MixedFraction() {
@@ -44,14 +39,14 @@ class MixedFraction extends Fraction {
         return whole;
     }
 
-    public Fraction getFractionPart() {
-        return this;
-    }
-
-    public Fraction toFraction(){
-        return this;
-    }
-
+//    public Fraction getFractionPart() {
+//        return this;
+//    }
+//
+//    public Fraction toFraction(){
+//        return this;
+//    }
+//
 //    public MixedFraction add(MixedFraction other){
 //
 //    }
@@ -69,6 +64,10 @@ class MixedFraction extends Fraction {
 //    }
 
     public String toString() {
-        return "";
+        return " ";
+    }
+
+    public double toDouble() {
+        return 0.0;
     }
 }
