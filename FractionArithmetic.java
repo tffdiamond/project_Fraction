@@ -1,6 +1,6 @@
+
 package project;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class FractionArithmetic {
@@ -19,31 +19,27 @@ public class FractionArithmetic {
         fractionArithmetic.printFraction();
 
         // Terminated if choice < 5
-        if (fractionArithmetic.optionalMenu(fractionArithmetic.choice))
-        {
+        if (fractionArithmetic.optionalMenu(fractionArithmetic.choice)) {
             fractionArithmetic.printFraction();
         }
 
         System.exit(0);
     }
 
-    private void printFraction()
-    {
+    private void printFraction() {
         System.out.println(tempFraction + "\n" + tempFraction.toDouble());
     }
 
-    private boolean optionalMenu(int choice)
-    {
+    private boolean optionalMenu(int choice) {
         char letter;
         try {
-            if (choice <= 4)
-            {
+            if (choice <= 4) {
                 System.out.println("Would you like to reduce the fraction? (y/n)");
                 letter = keyboard.next().charAt(0);
                 optionalMenuVerification(letter);
                 return true;
             }
-        } catch (ArithmeticException e){
+        } catch (ArithmeticException e) {
             System.out.println("You can't reduce an undefined fraction");
         }
         return false;
@@ -51,24 +47,19 @@ public class FractionArithmetic {
 
     private void optionalMenuVerification(char character) {
         Fraction temp = new Fraction();
-        if (character == 'y')
-        {
+        if (character == 'y') {
             tempFraction = temp.reduceFraction(fraction1);
-        }
-        else if (character == 'n')
-        {
+        } else if (character == 'n') {
             System.out.println("Thank you for using our program!");
-        }
-        else
-        {
+        } else {
             System.out.println("Your input is incorrect, closing the application now....");
         }
     }
 
     private void mainMenuOption() {
         do {
-                // Show the mainMenu
-                choice = showMainMenu();
+            // Show the mainMenu
+            choice = showMainMenu();
             switch (choice) {
                 // arithmetic options
                 case 1 -> tempFraction = addFractions();
@@ -77,49 +68,42 @@ public class FractionArithmetic {
                 case 4 -> tempFraction = divideFraction();
                 case 5 -> tempFraction = simplifyFraction();
             }
-                if (choice > 6)
-                {
-                    System.out.println("Please input a valid value!");
-                }
-            } while (choice > 6);
+            if (choice > 6) {
+                System.out.println("Please input a valid value!");
+            }
+        } while (choice > 6);
     }
 
-    private Fraction simplifyFraction()
-    {
+    private Fraction simplifyFraction() {
         tempFraction = readAFraction();
         return tempFraction.reduceFraction(tempFraction);
     }
 
-    private Fraction addFractions()
-    {
+    private Fraction addFractions() {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
         return fraction1.add(fraction2);
     }
 
-    private Fraction subtractFractions()
-    {
+    private Fraction subtractFractions() {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
         return fraction1.sub(fraction2);
     }
 
-    private Fraction multiplyFractions()
-    {
+    private Fraction multiplyFractions() {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
         return fraction1.multiply(fraction2);
     }
 
-    private  Fraction divideFraction()
-    {
+    private Fraction divideFraction() {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
         return fraction1.divide(fraction2);
     }
 
-    private static int showMainMenu()
-    {
+    private static int showMainMenu() {
         System.out.println("1. Add Fractions");
         System.out.println("2. Subtraction Fractions");
         System.out.println("3. Multiply Fractions");
@@ -129,8 +113,7 @@ public class FractionArithmetic {
         return keyboard.nextInt();
     }
 
-    public static Fraction readAFraction()
-    {
+    public static Fraction readAFraction() {
         int numerator, denominator;
         System.out.println("Input the numerator");
         numerator = keyboard.nextInt();
@@ -139,8 +122,7 @@ public class FractionArithmetic {
         return new Fraction(numerator, denominator);
     }
 
-    private static void showIntroduction()
-    {
+    private static void showIntroduction() {
         // Introduction
         System.out.println("This application allows the application of arithmetic operations(addition, subtraction, multiplication,\n" +
                 "division) with fractions.");

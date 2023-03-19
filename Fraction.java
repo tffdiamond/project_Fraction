@@ -1,8 +1,7 @@
 package project;
 
-/* NOTE:
-    - this keyword -> return the current object of the class that is in the method
- */
+import java.util.Objects;
+
 class Fraction
 {
     private int numerator;
@@ -23,6 +22,18 @@ class Fraction
     Fraction(Fraction fraction) {
         numerator = fraction.getNumerator();
         denominator = fraction.getDenominator();
+    }
+
+    public Fraction(String input_string_fraction) {
+        String[] whole, fraction_parts;
+        String fraction;
+
+        if (Objects.equals(input_string_fraction, input_string_fraction.strip()))
+        {
+            whole = input_string_fraction.split(" ");
+            fraction = whole[1];
+            fraction_parts = fraction.split("/");
+        }
     }
 
     public void setDenominator(int denominator){

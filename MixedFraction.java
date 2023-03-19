@@ -1,3 +1,4 @@
+
 package project;
 
 class MixedFraction extends Fraction {
@@ -71,3 +72,4 @@ class MixedFraction extends Fraction {
         return 0.0;
     }
 }
+
