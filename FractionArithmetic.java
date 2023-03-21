@@ -130,6 +130,7 @@ public class FractionArithmetic {
 
     public static Fraction readAFraction()  {
         String input_string_fraction;
+        keyboard.nextLine();
         System.out.println("Input the fraction: ");
         input_string_fraction = keyboard.nextLine();
 

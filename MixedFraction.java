@@ -47,7 +47,6 @@ class MixedFraction extends Fraction {
     }
 
 //    public MixedFraction add(MixedFraction other){
-//
 //    }
 //
 //    public MixedFraction sub(MixedFraction other){

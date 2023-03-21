@@ -24,16 +24,26 @@ class Fraction
         denominator = fraction.getDenominator();
     }
 
-    public Fraction(String input_string_fraction) {
-        String[] whole, fraction_parts;
+    Fraction(String input_string_fraction) {
+        String[] fraction_parts, numerator_denominator;
         String fraction;
+        int whole;
 
         if (Objects.equals(input_string_fraction, input_string_fraction.strip()))
         {
-            whole = input_string_fraction.split(" ");
-            fraction = whole[1];
-            fraction_parts = fraction.split("/");
+            fraction_parts = input_string_fraction.split(" ");
+            whole = Integer.parseInt(fraction_parts[0]);
+            fraction = fraction_parts[1];
+            numerator_denominator = fraction.split("/");
         }
+        else
+        {
+            numerator_denominator = input_string_fraction.split("/");
+        }
+
+
+        this.numerator = Integer.parseInt(numerator_denominator[0]);
+        this.denominator = Integer.parseInt(numerator_denominator[1]);
     }
 
     public void setDenominator(int denominator){
