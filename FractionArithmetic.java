@@ -18,31 +18,27 @@ public class FractionArithmetic {
         fractionArithmetic.printFraction();
 
         // Terminated if choice < 5
-        if (fractionArithmetic.optionalMenu(fractionArithmetic.choice))
-        {
+        if (fractionArithmetic.optionalMenu(fractionArithmetic.choice)) {
             fractionArithmetic.printFraction();
         }
 
         System.exit(0);
     }
 
-    private void printFraction()
-    {
+    private void printFraction() {
         System.out.println(tempFraction + "\n" + tempFraction.toDouble());
     }
 
-    private boolean optionalMenu(int choice)
-    {
+    private boolean optionalMenu(int choice) {
         char letter;
         try {
-            if (choice <= 4)
-            {
+            if (choice <= 4) {
                 System.out.println("Would you like to reduce the fraction? (y/n)");
                 letter = keyboard.next().charAt(0);
                 optionalMenuVerification(letter);
                 return true;
             }
-        } catch (ArithmeticException e){
+        } catch (ArithmeticException e) {
             System.out.println("You can't reduce an undefined fraction");
         }
         return false;
@@ -50,16 +46,11 @@ public class FractionArithmetic {
 
     private void optionalMenuVerification(char character) {
         Fraction temp = new Fraction();
-        if (character == 'y')
-        {
+        if (character == 'y') {
             tempFraction = temp.reduceFraction(fraction1);
-        }
-        else if (character == 'n')
-        {
+        } else if (character == 'n') {
             System.out.println("Thank you for using our program!");
-        }
-        else
-        {
+        } else {
             System.out.println("Your input is incorrect, closing the application now....");
         }
     }
@@ -67,7 +58,7 @@ public class FractionArithmetic {
     private void mainMenuOption() {
         do {
             // Show the mainMenu
-            choice = showMainMenu();
+            choice = Integer.parseInt(showMainMenu());
             switch (choice) {
                 // arithmetic options
                 case 1 -> tempFraction = addFractions();
@@ -76,48 +67,50 @@ public class FractionArithmetic {
                 case 4 -> tempFraction = divideFraction();
                 case 5 -> tempFraction = simplifyFraction();
             }
-            if (choice > 6)
-            {
+            if (choice > 6) {
                 System.out.println("Please input a valid value!");
             }
         } while (choice > 6);
     }
 
-    private Fraction simplifyFraction()
-    {
+    private Fraction simplifyFraction() {
         tempFraction = readAFraction();
         return tempFraction.reduceFraction(tempFraction);
     }
 
-    private Fraction addFractions()
-    {
+    private Fraction addFractions() {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
-        return fraction1.add(fraction2);
+
+        return verify_instance();
     }
+
 
     private Fraction subtractFractions()
     {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
-        return fraction1.sub(fraction2);
+
+        return verify_instance();
     }
 
     private Fraction multiplyFractions()
     {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
-        return fraction1.multiply(fraction2);
+
+        return verify_instance();
     }
 
     private  Fraction divideFraction()
     {
         fraction1 = readAFraction();
         fraction2 = readAFraction();
-        return fraction1.divide(fraction2);
+
+        return verify_instance();
     }
 
-    private static int showMainMenu()
+    private static String showMainMenu()
     {
         System.out.println("1. Add Fractions");
         System.out.println("2. Subtraction Fractions");
@@ -125,17 +118,37 @@ public class FractionArithmetic {
         System.out.println("4. Divide Fractions");
         System.out.println("5. Reduce a Fraction");
         System.out.println("Please input an appropriate option for computing a fraction: ");
-        return keyboard.nextInt();
+        return keyboard.nextLine();
     }
 
-    public static Fraction readAFraction()  {
+    public Fraction readAFraction()  {
         String input_string_fraction;
-        keyboard.nextLine();
         System.out.println("Input the fraction: ");
         input_string_fraction = keyboard.nextLine();
 
-        return new Fraction(input_string_fraction);
+        tempFraction = checkAFraction(input_string_fraction);
 
+        return tempFraction;
+    }
+
+    private Fraction checkAFraction(String input_string_fraction) {
+        String[] fraction_parts, numerator_denominator;
+        String fraction;
+        int whole;
+
+        if (input_string_fraction.contains(" "))
+        {
+            fraction_parts = input_string_fraction.split(" ");
+            whole = Integer.parseInt(fraction_parts[0]);
+            fraction = fraction_parts[1];
+            numerator_denominator = fraction.split("/");
+            return new MixedFraction(whole, Integer.parseInt(numerator_denominator[0]), Integer.parseInt(numerator_denominator[1]));
+        }
+        else
+        {
+            numerator_denominator = input_string_fraction.split("/");
+            return new Fraction(Integer.parseInt(numerator_denominator[0]), Integer.parseInt(numerator_denominator[1]));
+        }
     }
 
     private static void showIntroduction()
@@ -147,4 +160,87 @@ public class FractionArithmetic {
         System.out.println("Provide a menu facility for the user of your application.");
     }
 
+    private Fraction verify_instance()
+    {
+
+        switch (choice) {
+            case 1:
+                if (fraction1 instanceof MixedFraction && fraction2 instanceof MixedFraction)
+                {
+                    return ((MixedFraction) fraction1).add((MixedFraction) fraction2);
+                }
+                else if (fraction1 != null && fraction2 instanceof MixedFraction)
+                {
+                    return fraction1.add(fraction2);
+                }
+                else if (fraction1 instanceof MixedFraction && fraction2 != null)
+                {
+                    return fraction1.add(fraction2);
+                }
+                else
+                {
+                    assert fraction1 != null;
+                    assert fraction2 != null;
+                    return fraction1.add(fraction2);
+                }
+            case 2:
+                if (fraction1 instanceof MixedFraction && fraction2 instanceof MixedFraction)
+                {
+                    return ((MixedFraction) fraction1).sub((MixedFraction) fraction2);
+                }
+                else if (fraction1 != null && fraction2 instanceof MixedFraction)
+                {
+                    return fraction1.sub(fraction2);
+                }
+                else if (fraction1 instanceof MixedFraction && fraction2 != null)
+                {
+                    return fraction1.sub(fraction2);
+                }
+                else
+                {
+                    assert fraction1 != null;
+                    assert fraction2 != null;
+                    return fraction1.sub(fraction2);
+                }
+            case 3:
+                if (fraction1 instanceof MixedFraction && fraction2 instanceof MixedFraction)
+                {
+                    return ((MixedFraction) fraction1).multiply((MixedFraction) fraction2);
+                }
+                else if (fraction1 != null && fraction2 instanceof MixedFraction)
+                {
+                    return fraction1.multiply(fraction2);
+                }
+                else if (fraction1 instanceof MixedFraction && fraction2 != null)
+                {
+                    return fraction1.multiply(fraction2);
+                }
+                else
+                {
+                    assert fraction1 != null;
+                    assert fraction2 != null;
+                    return fraction1.multiply(fraction2);
+                }
+            case 4:
+                if (fraction1 instanceof MixedFraction && fraction2 instanceof MixedFraction)
+                {
+                    return ((MixedFraction) fraction1).divide((MixedFraction) fraction2);
+                }
+                else if (fraction1 != null && fraction2 instanceof MixedFraction)
+                {
+                    return fraction1.divide(fraction2);
+                }
+                else if (fraction1 instanceof MixedFraction && fraction2 != null)
+                {
+                    return fraction1.divide(fraction2);
+                }
+                else
+                {
+                    assert fraction1 != null;
+                    assert fraction2 != null;
+                    return fraction1.divide(fraction2);
+                }
+        }
+        return tempFraction;
+    }
 }

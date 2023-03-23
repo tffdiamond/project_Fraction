@@ -12,19 +12,11 @@ class MixedFraction extends Fraction {
 
     MixedFraction(int whole, int numerator, int denominator) {
         super(numerator, denominator);
-
-        // Formula for changing an improper fraction to mixed fraction
-        if (numerator > denominator) {
-            numerator = numerator % denominator;
-            whole = numerator / denominator;
-            setWholePart(whole);
-        }
-
-        new Fraction(numerator, denominator);
+        this.whole = whole;
     }
 
     MixedFraction(Fraction fraction) {
-
+        super(fraction);
     }
 
     public void setWholePart(int whole) {
@@ -46,12 +38,44 @@ class MixedFraction extends Fraction {
         return this;
     }
 
-//    public MixedFraction add(MixedFraction other){
-//    }
-//
-//    public MixedFraction sub(MixedFraction other){
-//
-//    }
+    public MixedFraction add(MixedFraction other){
+
+        whole = getWhole() + other.getWhole();
+
+        int newNumerator = 0;
+        int newDenominator = getDenominator(); // or int newDenominator = other.getDenominator()
+
+        if (getDenominator() == other.getDenominator())
+        {
+            newNumerator = getNumerator() + other.getNumerator();
+        }
+        else if (getDenominator() != other.getDenominator())
+        {
+            newNumerator = (getNumerator() * other.getDenominator()) + (other.getNumerator() * getDenominator());
+            newDenominator = getDenominator() * other.getDenominator();
+        }
+        return new MixedFraction(whole, newNumerator, newDenominator);
+    }
+
+    public MixedFraction sub(MixedFraction other){
+
+        whole = getWhole() - other.getWhole();
+
+        int newNumerator = 0;
+        int newDenominator = getDenominator(); // or int newDenominator = other.getDenominator()
+
+        if (getDenominator() == other.getDenominator())
+        {
+            newNumerator = getNumerator() - other.getNumerator();
+        }
+        else if (getDenominator() != other.getDenominator())
+        {
+            newNumerator = (getNumerator() * other.getDenominator()) - (other.getNumerator() * getDenominator());
+            newDenominator = getDenominator() * other.getDenominator();
+        }
+        return new MixedFraction(whole, newNumerator, newDenominator);
+
+    }
 //
 //    public MixedFraction multiply(MixedFraction other){
 //
@@ -61,7 +85,21 @@ class MixedFraction extends Fraction {
 //
 //    }
 
+    @Override
     public String toString() {
-        return "";
+        return whole + " " + getNumerator() + "/" + getDenominator();
     }
+
+    @Override
+    public double toDouble(){
+        if (getDenominator() == getNumerator()) return whole + 1;
+        else if (getDenominator() == 1) return whole + getNumerator();
+        else if (getNumerator() == 0) return whole;
+        else if (getDenominator() == 0) System.out.println("Undefined");
+        return whole + (double) (getNumerator()/getDenominator());
+    }
+
+    //    public String toString() {
+//        return whole + " " + getNumerator() + "/" + getDenominator();
+//    }
 }
