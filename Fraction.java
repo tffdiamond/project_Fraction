@@ -132,6 +132,11 @@ class Fraction
         } catch (ArithmeticException e) {
             System.out.println("Division by zero is undefined");
         }
+
+        if (fraction instanceof MixedFraction)
+        {
+            return new MixedFraction(((MixedFraction) fraction).getWhole(), numerator1, denominator1);
+        }
         return new Fraction(numerator1, denominator1);
     }
 }

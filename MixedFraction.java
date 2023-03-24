@@ -87,6 +87,10 @@ class MixedFraction extends Fraction {
 
     @Override
     public String toString() {
+        if (getDenominator() == getNumerator()) return whole + 1 + "";
+        else if (getDenominator() == 1) return whole + getNumerator() + "";
+        else if (getNumerator() == 0) return whole + "";
+        else if (getDenominator() == 0) return "Undefined";
         return whole + " " + getNumerator() + "/" + getDenominator();
     }
 
@@ -95,11 +99,8 @@ class MixedFraction extends Fraction {
         if (getDenominator() == getNumerator()) return whole + 1;
         else if (getDenominator() == 1) return whole + getNumerator();
         else if (getNumerator() == 0) return whole;
-        else if (getDenominator() == 0) System.out.println("Undefined");
+        else if (getDenominator() == 0) return -1;
         return whole + (double) (getNumerator()/getDenominator());
     }
 
-    //    public String toString() {
-//        return whole + " " + getNumerator() + "/" + getDenominator();
-//    }
 }

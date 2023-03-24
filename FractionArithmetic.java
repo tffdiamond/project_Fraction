@@ -47,7 +47,7 @@ public class FractionArithmetic {
     private void optionalMenuVerification(char character) {
         Fraction temp = new Fraction();
         if (character == 'y') {
-            tempFraction = temp.reduceFraction(fraction1);
+            tempFraction = temp.reduceFraction(tempFraction);
         } else if (character == 'n') {
             System.out.println("Thank you for using our program!");
         } else {
