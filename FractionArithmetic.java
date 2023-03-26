@@ -123,12 +123,13 @@ public class FractionArithmetic {
 
     public Fraction readAFraction()  {
         String input_string_fraction;
+        Fraction temp;
         System.out.println("Input the fraction: ");
         input_string_fraction = keyboard.nextLine();
 
-        tempFraction = checkAFraction(input_string_fraction);
+        temp = checkAFraction(input_string_fraction);
 
-        return tempFraction;
+        return temp;
     }
 
     private Fraction checkAFraction(String input_string_fraction) {
@@ -213,7 +214,7 @@ public class FractionArithmetic {
                 }
                 else if (fraction1 instanceof MixedFraction && fraction2 != null)
                 {
-                    return fraction1.multiply(fraction2);
+                    return fraction2.multiply(fraction1);
                 }
                 else
                 {
@@ -228,11 +229,13 @@ public class FractionArithmetic {
                 }
                 else if (fraction1 != null && fraction2 instanceof MixedFraction)
                 {
-                    return fraction1.divide(fraction2);
+                    MixedFraction temp = new MixedFraction(0,fraction1);
+                    return temp.divide((MixedFraction) fraction2);
                 }
                 else if (fraction1 instanceof MixedFraction && fraction2 != null)
                 {
-                    return fraction1.divide(fraction2);
+                    MixedFraction temp = new MixedFraction(0,fraction2);
+                    return ((MixedFraction) fraction1).divide(temp);
                 }
                 else
                 {

@@ -82,13 +82,27 @@ class Fraction
             numerator = (numerator * another.getDenominator()) - (another.getNumerator() * denominator);
             denominator = denominator * another.getDenominator();
         }
+
+        if (another instanceof MixedFraction)
+        {
+            return new MixedFraction(((MixedFraction) another).getWhole(), numerator, denominator);
+        }
+
         return this;
     }
 
     public Fraction multiply(Fraction another)
     {
+        MixedFraction other = new MixedFraction(0,numerator, denominator);
+
+        if (another instanceof MixedFraction)
+        {
+            return ((MixedFraction) another).multiply(other);
+        }
+
         numerator = numerator * another.getNumerator();
         denominator = denominator * another.getDenominator();
+
         return this;
     }
 
@@ -96,6 +110,7 @@ class Fraction
     {
         numerator = numerator * another.getDenominator();
         denominator = denominator * another.getNumerator();
+
         return this;
     }
 

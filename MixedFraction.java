@@ -76,18 +76,53 @@ class MixedFraction extends Fraction {
         return new MixedFraction(whole, newNumerator, newDenominator);
 
     }
-//
-//    public MixedFraction multiply(MixedFraction other){
-//
-//    }
-//
-//    public MixedFraction divide(MixedFraction other){
-//
-//    }
+
+    public MixedFraction multiply(MixedFraction other){
+
+        int newNumerator = (getDenominator() * getWhole()) + getNumerator();
+        int newDenominator;
+
+        newNumerator = newNumerator * other.getNumerator();
+        newDenominator = (getDenominator() * other.getDenominator());
+
+
+        return new MixedFraction(other.whole, newNumerator, newDenominator);
+
+    }
+
+    public MixedFraction divide(MixedFraction other){
+        int newNumerator;
+        int newDenominator;
+
+        if (other.getWhole() == 0 && getWhole() != 0)
+        {
+            // Converting mixed fraction into fraction
+            newNumerator = (getDenominator() * getWhole()) + getNumerator();
+
+            newNumerator = newNumerator * other.getDenominator();
+            newDenominator = (getDenominator() * other.getNumerator());
+
+            return new MixedFraction(other.whole, newNumerator, newDenominator);
+        }
+
+        else
+        {
+            int tempNumerator;
+
+            // Converting mixed fraction into fraction
+            tempNumerator = (other.getDenominator() * other.getWhole()) + other.getNumerator();
+
+            newNumerator = getNumerator() * other.getDenominator();
+            newDenominator = getDenominator() * tempNumerator;
+
+            return new MixedFraction(getWhole(), newNumerator, newDenominator);
+        }
+    }
 
     @Override
     public String toString() {
-        if (getDenominator() == getNumerator()) return whole + 1 + "";
+        if (whole == 0) return getNumerator() + "/" + getDenominator();
+        else if (getDenominator() == getNumerator()) return whole + 1 + "";
         else if (getDenominator() == 1) return whole + getNumerator() + "";
         else if (getNumerator() == 0) return whole + "";
         else if (getDenominator() == 0) return "Undefined";
@@ -96,11 +131,11 @@ class MixedFraction extends Fraction {
 
     @Override
     public double toDouble(){
-        if (getDenominator() == getNumerator()) return whole + 1;
+        if (whole == 0) return (double) getNumerator()/getDenominator();
+        else if (getDenominator() == getNumerator()) return whole + 1;
         else if (getDenominator() == 1) return whole + getNumerator();
         else if (getNumerator() == 0) return whole;
         else if (getDenominator() == 0) return -1;
         return whole + (double) (getNumerator()/getDenominator());
     }
-
 }
