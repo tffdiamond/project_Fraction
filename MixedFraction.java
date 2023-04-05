@@ -136,6 +136,6 @@ class MixedFraction extends Fraction {
         else if (getDenominator() == 1) return whole + getNumerator();
         else if (getNumerator() == 0) return whole;
         else if (getDenominator() == 0) return -1;
-        return whole + (double) (getNumerator()/getDenominator());
+        return whole + (getNumerator()/ (double) getDenominator());
     }
 }
