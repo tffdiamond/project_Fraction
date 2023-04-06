@@ -2,17 +2,21 @@ package project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class FractGUI extends JFrame {
+public class FractionGUI extends JFrame {
     private JPanel mainPanel;
     private final String buttonHoverColor = "#f2f2f2";
     private JTextField whole1Field, numerator1Field, denominator1Field, whole2Field, numerator2Field, denominator2Field, wholeAnswer, numeratorAnswer, denominatorAnswer;
     private String selectedOperator;
-    private String[] operators;
-    public FractGUI() {
+    private final String[] operators;
+    private JButton buttonActive;
+
+
+    public FractionGUI() {
         // Create the input panel
         JPanel inputPanel = new JPanel(new GridBagLayout());
 
@@ -91,18 +95,17 @@ public class FractGUI extends JFrame {
         inputPanel.add(Box.createVerticalStrut(20)); // Add a vertical strut for spacing
         inputPanel.add(secondFractionPanel);
 
-        // JComboBox has a low action event handler
-
-        // Typecast into a string
-        selectedOperator = (String) operatorComboBox.getSelectedItem();
-
-        // The action listener to the operator combo box
+        // add action listener to the operator combo box
 
         operatorComboBox.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e)
             {
                 super.mouseClicked(e);
+                // Typecast into a string
+                selectedOperator = (String) operatorComboBox.getSelectedItem();
+
                     Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
                             whole2Field, numerator2Field, denominator2Field);
                     verifyInstance(answer);
@@ -134,9 +137,17 @@ public class FractGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
-                        whole2Field, numerator2Field, denominator2Field);
-                verifyInstance(answer);
+
+                // Typecast into a string
+                selectedOperator = (String) operatorComboBox.getSelectedItem();
+
+                if (solveButton != buttonActive)
+                {
+                    Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
+                            whole2Field, numerator2Field, denominator2Field);
+                    verifyInstance(answer);
+                    buttonActive = null;
+                }
             }
 
             @Override
@@ -154,9 +165,13 @@ public class FractGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                Fraction answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
-                verifyInstance(answer);
 
+                if (simplifyButton != buttonActive)
+                {
+                    Fraction answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
+                    verifyInstance(answer);
+                    buttonActive = simplifyButton;
+                }
             }
 
             @Override
@@ -267,29 +282,85 @@ public class FractGUI extends JFrame {
         }
 
         // sub arithmetic
-
         else if (Objects.equals(selectedOperator, operators[1]))
         {
-
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
+            {
+                return new Fraction(Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).sub(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
+            {
+                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).sub(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
+            {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).sub(new MixedFraction(0,
+                        Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else
+            {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()),
+                        Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).sub(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
         }
 
         // multiply arithmetic
-
         else if (Objects.equals(selectedOperator, operators[2]))
         {
-
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
+            {
+                return new Fraction(Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).multiply(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
+            {
+                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).multiply(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
+            {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).multiply(new MixedFraction(0,
+                        Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else
+            {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()),
+                        Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).multiply(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
         }
 
         // divide arithmetic
         else
         {
-
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
+            {
+                return new Fraction(Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).divide(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
+            {
+                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).divide(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
+            {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
+                        Integer.parseInt(denominator1Field.getText())).divide(new MixedFraction(0,
+                        Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
+            else
+            {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()),
+                        Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).divide(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
+            }
         }
-
-        return null;
     }
 
     public static void main(String[] args) {
-        new FractGUI();
+        new FractionGUI();
     }
 }

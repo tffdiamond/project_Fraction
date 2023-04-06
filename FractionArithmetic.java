@@ -191,7 +191,7 @@ public class FractionArithmetic {
                 }
                 else if (fraction1 != null && fraction2 instanceof MixedFraction)
                 {
-                    return fraction1.sub(fraction2);
+                    return new MixedFraction(0,fraction1).sub((MixedFraction) fraction2);
                 }
                 else if (fraction1 instanceof MixedFraction && fraction2 != null)
                 {

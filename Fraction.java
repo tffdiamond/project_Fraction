@@ -124,8 +124,10 @@ class Fraction
             } else {
                 return computeGCD(value1 % value2, value2);
             }
-        } catch (ArithmeticException e) {
+        } catch (ArithmeticException arithmeticException) {
             System.out.println("The fraction is undefined");
+        } catch (StackOverflowError stackOverflowError) {
+            return 1;
         }
         return 0;
     }
@@ -144,6 +146,12 @@ class Fraction
             numerator1 = fraction.getNumerator() / GCD;
             denominator1 = fraction.getDenominator() / GCD;
 
+            if (GCD == 1)
+            {
+                // simplifying improper fraction
+                return new MixedFraction(numerator1/denominator1, numerator1 % denominator1, denominator1);
+            }
+
         } catch (ArithmeticException e) {
             System.out.println("Division by zero is undefined");
         }
@@ -152,6 +160,7 @@ class Fraction
         {
             return new MixedFraction(((MixedFraction) fraction).getWhole(), numerator1, denominator1);
         }
+
         return new Fraction(numerator1, denominator1);
     }
 }
