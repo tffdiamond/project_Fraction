@@ -2,17 +2,17 @@ package project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class FractionGUI extends JFrame {
     private JPanel mainPanel;
-    private JTextField whole1Field, numerator1Field, denominator1Field, whole2Field, numerator2Field, denominator2Field, wholeAnswer, numeratorAnswer, denominatorAnswer;
+    private JTextField whole1Field, numerator1Field, denominator1Field, whole2Field, numerator2Field,
+            denominator2Field, wholeAnswer, numeratorAnswer, denominatorAnswer;
     private String selectedOperator;
     private final String[] operators;
-    private JButton buttonActive;
+    private final JButton tempButton = null;
 
 
     public FractionGUI() {
@@ -110,12 +110,11 @@ public class FractionGUI extends JFrame {
                 // Typecast into a string
                 selectedOperator = (String) operatorComboBox.getSelectedItem();
 
-                if (solveButton != buttonActive)
+                if (solveButton != tempButton)
                 {
                     Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
                             whole2Field, numerator2Field, denominator2Field);
                     verifyInstance(answer);
-                    buttonActive = null;
                 }
             }
         });
@@ -125,11 +124,10 @@ public class FractionGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                if (simplifyButton != buttonActive)
+                if (simplifyButton != tempButton)
                 {
                     Fraction answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
                     verifyInstance(answer);
-                    buttonActive = simplifyButton;
                 }
             }
         });
