@@ -9,7 +9,6 @@ import java.util.Objects;
 
 public class FractionGUI extends JFrame {
     private JPanel mainPanel;
-    private final String buttonHoverColor = "#f2f2f2";
     private JTextField whole1Field, numerator1Field, denominator1Field, whole2Field, numerator2Field, denominator2Field, wholeAnswer, numeratorAnswer, denominatorAnswer;
     private String selectedOperator;
     private final String[] operators;
@@ -19,12 +18,6 @@ public class FractionGUI extends JFrame {
     public FractionGUI() {
         // Create the input panel
         JPanel inputPanel = new JPanel(new GridBagLayout());
-
-        // Create boundaries for the first fraction panel
-//        GridBagConstraints gbcFirst = new GridBagConstraints();
-//        gbcFirst.gridx = 0;
-//        gbcFirst.gridy = 0;
-//        gbcFirst.anchor = GridBagConstraints.WEST;
 
         // Create the panel for the first fraction input
         JPanel firstFractionPanel = new JPanel();
@@ -52,12 +45,6 @@ public class FractionGUI extends JFrame {
         // Add the first fraction panel to the input panel
         inputPanel.add(firstFractionPanel);
 
-        // Create the boundaries for the second fraction panel
-//        GridBagConstraints gbcSecond = new GridBagConstraints();
-//        gbcSecond.gridx = 1;
-//        gbcSecond.gridy = 0;
-//        gbcSecond.anchor = GridBagConstraints.WEST;
-
         // Create the panel for the second fraction input
         JPanel secondFractionPanel = new JPanel();
         secondFractionPanel.setLayout(new BoxLayout(secondFractionPanel, BoxLayout.Y_AXIS));
@@ -81,9 +68,6 @@ public class FractionGUI extends JFrame {
         secondFractionInputPanel.add(denominator2Field);
         secondFractionPanel.add(secondFractionInputPanel);
 
-        // Add the second fraction panel to the input panel
-        inputPanel.add(secondFractionPanel);
-
         // Create the drop-down menu for the operator
         operators = new String[]{"+", "-", "*", "/"};
         JComboBox<String> operatorComboBox = new JComboBox<>(operators);
@@ -94,9 +78,7 @@ public class FractionGUI extends JFrame {
         inputPanel.add(operatorPanel);
         inputPanel.add(Box.createVerticalStrut(20)); // Add a vertical strut for spacing
         inputPanel.add(secondFractionPanel);
-
         // add action listener to the operator combo box
-
         operatorComboBox.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -110,19 +92,6 @@ public class FractionGUI extends JFrame {
                             whole2Field, numerator2Field, denominator2Field);
                     verifyInstance(answer);
             }
-
-            // for designing
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-            }
-
-
         });
 
         // solve and simplify buttons
@@ -149,16 +118,6 @@ public class FractionGUI extends JFrame {
                     buttonActive = null;
                 }
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-            }
         });
 
         simplifyButton.addMouseListener(new MouseAdapter() {
@@ -172,16 +131,6 @@ public class FractionGUI extends JFrame {
                     verifyInstance(answer);
                     buttonActive = simplifyButton;
                 }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
             }
         });
 
@@ -218,6 +167,8 @@ public class FractionGUI extends JFrame {
         // Add the main panel to the frame and set other frame properties
         //Also shows the window on runtime
         add(mainPanel);
+        setResizable(false);
+        setBackground(new Color(255, 255, 255));
         setTitle("Fraction Calculator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
