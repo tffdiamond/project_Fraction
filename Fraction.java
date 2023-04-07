@@ -141,6 +141,12 @@ class Fraction
         int GCD;
         int numerator1 = 0;
         int denominator1 = 0;
+
+        if (fraction instanceof MixedFraction)
+        {
+            fraction.numerator = (((MixedFraction) fraction).getWhole() * fraction.getDenominator()) + fraction.getNumerator();
+        }
+
         try {
             GCD = computeGCD(fraction.getNumerator(), fraction.getDenominator());
             numerator1 = fraction.getNumerator() / GCD;
@@ -148,17 +154,12 @@ class Fraction
 
             if (GCD == 1)
             {
-                // simplifying improper fraction
+                // converting improper to mixed fraction
                 return new MixedFraction(numerator1/denominator1, numerator1 % denominator1, denominator1);
             }
 
         } catch (ArithmeticException e) {
             System.out.println("Division by zero is undefined");
-        }
-
-        if (fraction instanceof MixedFraction)
-        {
-            return new MixedFraction(((MixedFraction) fraction).getWhole(), numerator1, denominator1);
         }
 
         return new Fraction(numerator1, denominator1);

@@ -12,7 +12,6 @@ public class FractionGUI extends JFrame {
             denominator2Field, wholeAnswer, numeratorAnswer, denominatorAnswer;
     private String selectedOperator;
     private final String[] operators;
-    private final JButton tempButton = null;
 
 
     public FractionGUI() {
@@ -110,12 +109,9 @@ public class FractionGUI extends JFrame {
                 // Typecast into a string
                 selectedOperator = (String) operatorComboBox.getSelectedItem();
 
-                if (solveButton != tempButton)
-                {
-                    Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
-                            whole2Field, numerator2Field, denominator2Field);
-                    verifyInstance(answer);
-                }
+                Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
+                        whole2Field, numerator2Field, denominator2Field);
+                verifyInstance(answer);
             }
         });
 
@@ -124,11 +120,8 @@ public class FractionGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                if (simplifyButton != tempButton)
-                {
-                    Fraction answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
-                    verifyInstance(answer);
-                }
+                Fraction answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
+                verifyInstance(answer);
             }
         });
 
