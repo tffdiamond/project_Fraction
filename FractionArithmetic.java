@@ -1,4 +1,7 @@
-package project;
+package project.project_Fraction;
+
+import projectV2.Fraction;
+import projectV2.MixedFraction;
 
 import java.util.Scanner;
 

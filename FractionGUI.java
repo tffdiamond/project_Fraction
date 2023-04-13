@@ -1,9 +1,10 @@
-package project;
+package project.project_Fraction;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.IllegalFormatException;
 import java.util.Objects;
 
 public class FractionGUI extends JFrame {
@@ -12,7 +13,6 @@ public class FractionGUI extends JFrame {
             denominator2Field, wholeAnswer, numeratorAnswer, denominatorAnswer;
     private String selectedOperator;
     private final String[] operators;
-
 
     public FractionGUI() {
         // Create the input panel
@@ -81,15 +81,15 @@ public class FractionGUI extends JFrame {
         operatorComboBox.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent e)
-            {
+            public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 // Typecast into a string
                 selectedOperator = (String) operatorComboBox.getSelectedItem();
 
-                    Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
-                            whole2Field, numerator2Field, denominator2Field);
-                    verifyInstance(answer);
+                Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
+                        whole2Field, numerator2Field, denominator2Field);
+
+                verifyInstance(answer);
             }
         });
 
@@ -109,8 +109,15 @@ public class FractionGUI extends JFrame {
                 // Typecast into a string
                 selectedOperator = (String) operatorComboBox.getSelectedItem();
 
-                Fraction answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
-                        whole2Field, numerator2Field, denominator2Field);
+                Fraction answer = null;
+                try {
+                    answer = solveFraction(whole1Field, numerator1Field, denominator1Field,
+                            whole2Field, numerator2Field, denominator2Field);
+                } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(null, "Input data is not a whole number, please input an " +
+                            "appropriate " +
+                            "data");
+                }
                 verifyInstance(answer);
             }
         });
@@ -120,7 +127,14 @@ public class FractionGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                Fraction answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
+                Fraction answer = null;
+                try {
+                    answer = simplifyFraction(wholeAnswer, numeratorAnswer, denominatorAnswer);
+                } catch (IllegalFormatException illegalFormatException) {
+                    JOptionPane.showMessageDialog(null, "Input data is not a whole number, please input an " +
+                            "appropriate " +
+                            "data");
+                }
                 verifyInstance(answer);
             }
         });
@@ -131,9 +145,6 @@ public class FractionGUI extends JFrame {
         numeratorAnswer = new JTextField(2);
         denominatorAnswer = new JTextField(2);
         answerPanel.add(wholeAnswer);
-        wholeAnswer.setEditable(false);
-        numeratorAnswer.setEditable(false);
-        denominatorAnswer.setEditable(false);
         wholeAnswer.setText("0");
         numeratorAnswer.setText("0");
         denominatorAnswer.setText("0");
@@ -195,110 +206,90 @@ public class FractionGUI extends JFrame {
         }
     }
 
-    private Fraction solveFraction(JTextField whole1Field, JTextField numerator1Field, JTextField denominator1Field, JTextField whole2Field, JTextField numerator2Field, JTextField denominator2Field)
-    {
+    // solveFraction tendency to cause an unchecked exception
+    private Fraction solveFraction(JTextField whole1Field, JTextField numerator1Field, JTextField denominator1Field,
+                                   JTextField whole2Field, JTextField numerator2Field, JTextField denominator2Field) {
+
+        checkFraction();
+
         // add arithmetic
-        if (Objects.equals(selectedOperator, operators[0]))
-        {
-            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
-            {
+        if (Objects.equals(selectedOperator, operators[0])) {
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty()) {
                 return new Fraction(Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).add(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
-            {
-                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+            } else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null) {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).add(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
-            {
+            } else if (whole1Field.getText() != null && whole2Field.getText().isEmpty()) {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).add(new MixedFraction(0,
                         Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else
-            {
+            } else {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()),
                         Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).add(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
             }
         }
 
         // sub arithmetic
-        else if (Objects.equals(selectedOperator, operators[1]))
-        {
-            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
-            {
+        else if (Objects.equals(selectedOperator, operators[1])) {
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty()) {
                 return new Fraction(Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).sub(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
-            {
-                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+            } else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null) {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).sub(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
-            {
+            } else if (whole1Field.getText() != null && whole2Field.getText().isEmpty()) {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).sub(new MixedFraction(0,
                         Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else
-            {
+            } else {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()),
                         Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).sub(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
             }
         }
 
         // multiply arithmetic
-        else if (Objects.equals(selectedOperator, operators[2]))
-        {
-            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
-            {
+        else if (Objects.equals(selectedOperator, operators[2])) {
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty()) {
                 return new Fraction(Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).multiply(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
-            {
-                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+            } else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null) {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()),
+                        Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).multiply(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
-            {
+            } else if (whole1Field.getText() != null && whole2Field.getText().isEmpty()) {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).multiply(new MixedFraction(0,
                         Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else
-            {
+            } else {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()),
                         Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).multiply(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
             }
         }
 
         // divide arithmetic
-        else
-        {
-            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty())
-            {
+        else {
+            if (whole1Field.getText().isEmpty() && whole2Field.getText().isEmpty()) {
                 return new Fraction(Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).divide(new Fraction(Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null)
-            {
-                return new MixedFraction(0, Integer.parseInt(numerator1Field.getText()),
+            } else if (whole1Field.getText().isEmpty() && whole2Field.getText() != null) {
+                return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).divide(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else if (whole1Field.getText() != null && whole2Field.getText().isEmpty())
-            {
+            } else if (whole1Field.getText() != null && whole2Field.getText().isEmpty()) {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()), Integer.parseInt(numerator1Field.getText()),
                         Integer.parseInt(denominator1Field.getText())).divide(new MixedFraction(0,
                         Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
-            }
-            else
-            {
+            } else {
                 return new MixedFraction(Integer.parseInt(whole1Field.getText()),
                         Integer.parseInt(numerator1Field.getText()), Integer.parseInt(denominator1Field.getText())).divide(new MixedFraction(Integer.parseInt(whole2Field.getText()), Integer.parseInt(numerator2Field.getText()), Integer.parseInt(denominator2Field.getText())));
             }
+        }
+    }
+
+    private void checkFraction() {
+        if (Integer.parseInt(denominator1Field.getText()) == 0 || Integer.parseInt(denominator2Field.getText()) == 0)
+        {
+            JOptionPane.showMessageDialog(null, "A fraction with a 0 denominator is undefined");
         }
     }
 

@@ -1,4 +1,4 @@
-package project;
+package project.project_Fraction;
 
 class Fraction
 {
